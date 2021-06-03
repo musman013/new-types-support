@@ -15,9 +15,11 @@ export class JwtInterceptor implements HttpInterceptor {
       'content-type': 'application/json',
     };
 
-    request = request.clone({
-      setHeaders: headers,
-    });
+    if(request.method != "PUT"){
+      request = request.clone({
+        setHeaders: headers,
+      });
+    }
 
     if (request.url.includes(environment.apiUrl)) {
       request = request.clone({

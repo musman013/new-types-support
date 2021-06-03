@@ -6,6 +6,7 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -19,6 +20,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.nio.charset.StandardCharsets;
 import java.time.*;
 import java.util.*;
 import javax.annotation.PostConstruct;
@@ -33,6 +39,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
+import org.springdoc.core.RequestBodyBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -40,9 +47,18 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.core.env.Environment;
 import org.springframework.data.web.SortHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
+import org.springframework.http.client.MultipartBodyBuilder;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMultipartHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.request.RequestPostProcessor;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.multipart.MultipartFile;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = "spring.profiles.active=test")
@@ -109,6 +125,16 @@ public class T1ControllerTest {
 
         return t1Input;
     }
+    
+    public MultiValueMap<String, String> createInputParams() {
+    	MultiValueMap<String,String> map = new LinkedMultiValueMap<String, String>();
+    	map.add("id", "4");
+    	map.add("str", "4");
+    	map.add("flpa", "4,3");
+    	map.add("fpa", "4,6");
+    	map.add("ca", "41");
+    	return map;
+    } 
 
     public T1Entity createNewEntity() {
         T1Entity t1 = new T1Entity();
@@ -122,9 +148,22 @@ public class T1ControllerTest {
         T1Entity t1 = new T1Entity();
         t1.setId(4L);
         t1.setStr("4");
+        List<Double> flpa = new ArrayList<Double>();
+        flpa.add(2.3);
+        t1.setFlpa(flpa);;
 
         return t1;
     }
+    
+    public MultiValueMap<String, String> createUpdateParams() {
+    	MultiValueMap<String,String> map = new LinkedMultiValueMap<String, String>();
+    	map.add("id", "4");
+    	map.add("str", "4");
+    	map.add("flpa", "4,3");
+    	map.add("fpa", "4,6");
+    	map.add("ca", "41");
+    	return map;
+    } 
 
     @Before
     public void setup() {
@@ -167,17 +206,13 @@ public class T1ControllerTest {
 
     @Test
     public void CreateT1_T1DoesNotExist_ReturnStatusOk() throws Exception {
-        CreateT1Input t1Input = createT1Input();
-
-        ObjectWriter ow = new ObjectMapper()
-            .registerModule(new JavaTimeModule())
-            .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-            .writer()
-            .withDefaultPrettyPrinter();
-
-        String json = ow.writeValueAsString(t1Input);
-
-        mvc.perform(post("/t1").contentType(MediaType.APPLICATION_JSON).content(json)).andExpect(status().isOk());
+    	MockMultipartHttpServletRequestBuilder builder =
+                MockMvcRequestBuilders.multipart("/t1");
+        mvc.perform(builder
+                .file("file", "ABC".getBytes("UTF-8"))
+                .params(createInputParams())
+        		)
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -235,6 +270,7 @@ public class T1ControllerTest {
 
     @Test
     public void UpdateT1_T1Exists_ReturnStatusOk() throws Exception {
+    	
         T1Entity entity = createUpdateEntity();
         entity.setVersiono(0L);
 
@@ -249,21 +285,19 @@ public class T1ControllerTest {
         output.setVersiono(entity.getVersiono());
 
         Mockito.when(t1AppService.findById(entity.getId())).thenReturn(output);
-
-        UpdateT1Input t1Input = new UpdateT1Input();
-        t1Input.setId(entity.getId());
-
-        ObjectWriter ow = new ObjectMapper()
-            .registerModule(new JavaTimeModule())
-            .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-            .writer()
-            .withDefaultPrettyPrinter();
-        String json = ow.writeValueAsString(t1Input);
-
-        mvc
-            .perform(put("/t1/" + entity.getId() + "/").contentType(MediaType.APPLICATION_JSON).content(json))
-            .andExpect(status().isOk());
-
+  
+        MockMultipartHttpServletRequestBuilder builder =
+                MockMvcRequestBuilders.multipart("/t1/" + entity.getId());
+        builder.with(request -> {
+        	request.setMethod("PUT");
+        	return request;
+        });
+        mvc.perform(builder
+                .file("file", "ABC".getBytes("UTF-8"))
+                .params(createUpdateParams())
+        		)
+                .andExpect(status().isOk());
+        
         T1Entity de = createUpdateEntity();
         de.setId(entity.getId());
         t1_repository.delete(de);

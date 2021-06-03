@@ -1,11 +1,17 @@
 package com.fastcode.example.domain.core.t1;
 
 import com.fastcode.example.domain.core.ByteArrayConverter;
+import com.fastcode.example.domain.core.InetConverter;
+import com.fastcode.example.domain.core.JsonConverter;
+import com.fastcode.example.domain.core.JsonbConverter;
 import com.fastcode.example.domain.core.abstractentity.AbstractEntity;
 import java.io.File;
 import java.time.*;
 import java.util.List;
 import javax.persistence.*;
+
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,14 +31,28 @@ public class T1Entity extends AbstractEntity {
     private char[] ca;
 
     @Basic
-    @Convert(converter = ByteArrayConverter.class)
     @Column(name = "file", nullable = true)
-    private File file;
+    private byte[] file;
 
     @Basic
     @Convert(converter = ByteArrayConverter.class)
     @Column(name = "flpa", nullable = true)
     private List<Double> flpa;
+
+//    @Basic
+//    @Convert(converter = JsonConverter.class)
+//    @Column(name = "jf", nullable = true)
+//    private String jf;
+//    
+    @Basic
+//    @Convert(converter = JsonbConverter.class)
+    @Column(name = "jbf", nullable = true)
+    private String jbf;
+    
+    @Basic
+//    @Convert(converter = InetConverter.class)
+    @Column(name = "inet", nullable = true)
+    private String inet;
 
     @Basic
     @Convert(converter = ByteArrayConverter.class)

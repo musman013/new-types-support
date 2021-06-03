@@ -47,13 +47,7 @@ export class T1ListComponent extends BaseListComponent<IT1> implements OnInit {
         label: 'ca',
         sort: true,
         filter: true,
-      },
-      {
-        column: 'file',
-        searchColumn: 'file',
-        label: 'file',
-        sort: true,
-        filter: true,
+        type: listColumnType.String
       },
       {
         column: 'flpa',
@@ -61,6 +55,7 @@ export class T1ListComponent extends BaseListComponent<IT1> implements OnInit {
         label: 'flpa',
         sort: true,
         filter: true,
+        type: listColumnType.Array
       },
       {
         column: 'fpa',
@@ -68,6 +63,7 @@ export class T1ListComponent extends BaseListComponent<IT1> implements OnInit {
         label: 'fpa',
         sort: true,
         filter: true,
+        type: listColumnType.Array
       },
       {
         column: 'id',

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { IAssociationEntry } from 'src/app/common/shared';
 
 @Component({
@@ -43,5 +43,20 @@ export class FieldsComponent implements OnInit {
 
   openDetails(association) {
     this.openChildDetails.emit(association);
+  }
+
+  addItem(field: string): void {
+    (<FormArray>this.itemForm.get(field)).push(new FormControl(''));
+  }
+  
+  removeItem(field: string, index: number) {
+    (<FormArray>this.itemForm.get(field)).removeAt(index);
+  }
+
+  handleFileInput(event, field: string) {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      this.itemForm.get(`${field}Source`).setValue(file);
+    }
   }
 }
