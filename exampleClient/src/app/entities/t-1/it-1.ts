@@ -5,4 +5,5 @@ export interface IT1 {
   flpa?: number[];
   ca?: string;
   file?: Blob;
+  array?: Array<any>;
 }

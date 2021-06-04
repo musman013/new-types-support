@@ -32,5 +32,6 @@ export enum FieldType {
   Boolean = 'boolean',
   FixedPointArray = 'fixedPointArray',
   FloatingPointArray = 'floatingPointArray',
+  Array = 'array',
   File = 'file',
 }

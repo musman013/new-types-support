@@ -45,11 +45,18 @@ export class FieldsComponent implements OnInit {
     this.openChildDetails.emit(association);
   }
 
-  addItem(field: string): void {
-    (<FormArray>this.itemForm.get(field)).push(new FormControl(''));
+  addItem(field: string, type): void {
+    if (type == "file")
+    {(<FormArray>this.itemForm.get(`${field}Source`)).push(new FormControl(''));
+    (<FormArray>this.itemForm.get(field)).push(new FormControl(''));}
+    else
+  (<FormArray>this.itemForm.get(field)).push(new FormControl(''));
   }
-  
-  removeItem(field: string, index: number) {
+  addfile(field: string, type): void {
+    
+  }
+  removeItem(field: string, index: any) {
+    
     (<FormArray>this.itemForm.get(field)).removeAt(index);
   }
 
@@ -57,6 +64,12 @@ export class FieldsComponent implements OnInit {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
       this.itemForm.get(`${field}Source`).setValue(file);
+    }
+  }
+  handleFileInput2(event, field: any, index) {
+    if (event.target.files.length > 0) {
+     var file: any[] = event.target.files[0];
+     this.itemForm.get(`${field}Source`).controls[index].setValue(file);
     }
   }
 }
