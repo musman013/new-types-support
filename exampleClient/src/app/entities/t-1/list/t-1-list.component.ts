@@ -41,53 +41,53 @@ export class T1ListComponent extends BaseListComponent<IT1> implements OnInit {
 
   setColumns() {
     this.columns = [
-      {
-        column: 'ca',
-        searchColumn: 'ca',
-        label: 'ca',
-        sort: true,
-        filter: true,
-        type: listColumnType.String
-      },
-      {
-        column: 'flpa',
-        searchColumn: 'flpa',
-        label: 'flpa',
-        sort: true,
-        filter: true,
-        type: listColumnType.Array
-      },
-      {
-        column: 'fpa',
-        searchColumn: 'fpa',
-        label: 'fpa',
-        sort: true,
-        filter: true,
-        type: listColumnType.Array
-      },
-      {
-        column: 'id',
-        searchColumn: 'id',
-        label: 'id',
-        sort: true,
-        filter: true,
-        type: listColumnType.Number,
-      },
-      {
-        column: 'str',
-        searchColumn: 'str',
-        label: 'str',
-        sort: true,
-        filter: true,
-        type: listColumnType.String,
-      },
-      {
-        column: 'actions',
-        label: 'Actions',
-        sort: false,
-        filter: false,
-        type: listColumnType.String,
-      },
+      // {
+      //   column: 'ca',
+      //   searchColumn: 'ca',
+      //   label: 'ca',
+      //   sort: true,
+      //   filter: true,
+      //   type: listColumnType.String
+      // },
+      // {
+      //   column: 'flpa',
+      //   searchColumn: 'flpa',
+      //   label: 'flpa',
+      //   sort: true,
+      //   filter: true,
+      //   type: listColumnType.Array
+      // },
+      // {
+      //   column: 'fpa',
+      //   searchColumn: 'fpa',
+      //   label: 'fpa',
+      //   sort: true,
+      //   filter: true,
+      //   type: listColumnType.Array
+      // },
+      // {
+      //   column: 'id',
+      //   searchColumn: 'id',
+      //   label: 'id',
+      //   sort: true,
+      //   filter: true,
+      //   type: listColumnType.Number,
+      // },
+      // {
+      //   column: 'str',
+      //   searchColumn: 'str',
+      //   label: 'str',
+      //   sort: true,
+      //   filter: true,
+      //   type: listColumnType.String,
+      // },
+      // {
+      //   column: 'actions',
+      //   label: 'Actions',
+      //   sort: false,
+      //   filter: false,
+      //   type: listColumnType.String,
+      // },
     ];
     this.selectedColumns = this.columns;
     this.displayedColumns = this.columns.map((obj) => {

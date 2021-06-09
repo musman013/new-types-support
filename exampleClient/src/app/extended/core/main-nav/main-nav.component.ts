@@ -14,4 +14,18 @@ export class MainNavExtendedComponent extends MainNavComponent {
   constructor(public router: Router, public translate: TranslateService, public globals: Globals) {
     super(router, translate, globals);
   }
+  public open= false ;
+  public selected = "null";
+  hello(temp) {
+    
+    if (temp != this.selected) {
+      this.selected = temp;
+      this.open=true
+      
+    } else {
+      this.open = !this.open;
+      this.selected='null'
+      console.log(temp,this.open);
+    }
+  }
 }

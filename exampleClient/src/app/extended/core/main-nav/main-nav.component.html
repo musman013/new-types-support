@@ -31,37 +31,41 @@
   >
     <mat-nav-list class="nav-list">
       <a mat-list-item class="sidenav-list-item" routerLinkActive="active" [routerLink]="['/dashboard']"
-        ><i class="material-icons">home</i> &nbsp;{{ 'MainNav.Home' | translate }}</a
+      [class.select]="selected=='home' && open==true" (click)="hello('home')"><i class="material-icons">home</i> &nbsp;{{ 'MainNav.Home' | translate }}</a
       >
-
-      <mat-expansion-panel class="expansion-panel">
-        <mat-expansion-panel-header class="subnav-header">
+       <mat-accordion [multi]="false">
+      <mat-expansion-panel class="expansion-panel" [class.select]="selected=='ent'&& open==true " (click)="hello('ent')">
+        <mat-expansion-panel-header class="subnav-header" >
           <i class="material-icons"> dvr </i> &nbsp;{{ 'MainNav.Entities' | translate }}
         </mat-expansion-panel-header>
 
-        <mat-nav-list class="subnav">
+        <mat-nav-list class="subnav" >
           <ng-container *ngFor="let entity of entityList">
-            <a mat-list-item class="mat-sub-list-item" [class.active]="isActive(entity)" [routerLink]="[entity]">
+            <div [class.select]="selected==entity" (click)="hello(entity)" >
+            <a mat-list-item class="mat-sub-list-item"  [routerLink]="[entity]"[class.active]="isActive(entity)" >
               {{ entity }}
-            </a>
+            </a></div>
           </ng-container>
         </mat-nav-list>
       </mat-expansion-panel>
 
-      <mat-expansion-panel class="expansion-panel">
+      <mat-expansion-panel class="expansion-panel" [class.select]="selected=='tool' && open==true" (click)="hello('tool')">
         <mat-expansion-panel-header class="subnav-header">
           <i class="material-icons"> build </i> &nbsp;{{ 'MainNav.Tools' | translate }}
         </mat-expansion-panel-header>
 
-        <mat-nav-list class="subnav"> </mat-nav-list>
+        <mat-nav-list class="subnav">
+
+        </mat-nav-list>
       </mat-expansion-panel>
 
-      <mat-expansion-panel class="expansion-panel">
+      <mat-expansion-panel class="expansion-panel" [class.select]="selected=='admin' && open==true" (click)="hello('admin')">
         <mat-expansion-panel-header class="subnav-header">
           <i class="material-icons"> account_box </i> &nbsp;{{ 'MainNav.Administration' | translate }}
         </mat-expansion-panel-header>
       </mat-expansion-panel>
-      <a mat-list-item class="sidenav-list-item" routerLink="swagger-ui">
+    </mat-accordion>
+      <a mat-list-item class="sidenav-list-item" routerLink="swagger-ui"[class.select]="selected=='api' && open==true" (click)="hello('api')">
         <i class="material-icons"> settings </i> &nbsp;{{ 'MainNav.API' | translate }}</a
       >
     </mat-nav-list>

@@ -258,10 +258,7 @@
     //  outline: 1px solid #000000;
   }
 
-  .mat-expansion-panel-content:after {
-    content: '';
-    background: mat-color($background, background);
-  }
+
 
   .mat-expansion-panel-content .mat-expansion-panel-content:after {
     display: none;

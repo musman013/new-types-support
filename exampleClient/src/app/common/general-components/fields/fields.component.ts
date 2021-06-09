@@ -68,8 +68,8 @@ export class FieldsComponent implements OnInit {
   }
   handleFileInput2(event, field: any, index) {
     if (event.target.files.length > 0) {
-     var file: any[] = event.target.files[0];
-     this.itemForm.get(`${field}Source`).controls[index].setValue(file);
+    let file: any[] = event.target.files[0];
+    //  this.itemForm.get(`${field}Source`).control[index].setValue(file);
     }
   }
 }

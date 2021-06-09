@@ -52,7 +52,7 @@ $mat-light-theme-background: (
   background: $light-background,
   status-bar: $light-bg-darker-20,
   app-bar: $light-bg-darker-5,
-  hover: $dark-bg-alpha-4,
+ // hover: #141924,
   card: $light-bg-lighter-5,
   dialog: $light-bg-lighter-5,
   tooltip: $dark-bg-tooltip,
@@ -84,14 +84,15 @@ $fontConfig: (
   button: mat-typography-level(14px, 14px, 500, 'Futura PT', 0.0893em),
   caption: mat-typography-level(12px, 20px, 400, 'Futura PT', 0.0333em),
   input: mat-typography-level(inherit, 1.125, 400, 'Futura PT', 1.5px),
+ 
 );
 @include mat-core($fontConfig);
 // // Theme Config
 
 $mat-primary: (
-  main: #006064,
+  main:  #1a202e,
   lighter: #b3cfd1,
-  darker: #004448,
+  darker: #141924,
   200: #006064,
   // For slide toggle,
   contrast:
